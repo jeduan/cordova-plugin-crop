@@ -6,39 +6,41 @@
 ## Install
 
 ```
-$ npm install --save envvars
+$ cordova plugin add --save cordova-plugin-crop
 ```
 
 
 ## Usage
 
-```bash
-$ cat .env
-export FOO=foo
-export FOO_BAR=bar
-export BAR_FOO="baz"
+```js
+plugins.crop(function success () {
+
+}, function fail () {
+
+}, '/path/to/image', options)
 ```
 
-```js
-var envVars = require('envvars');
+or, if you are running on an environment that supports Promises
+(Crosswalk, Android >= KitKat, iOS >= 8)
 
-fs.readFile('.env', 'utf8', function (content) {
-  var result = envVars(content)
-  // => {foo: 'foo', fooBar: 'bar', barFoo: 'baz'}
+```js
+plugins.crop.promise('/path/to/image', options)
+.then(function success () {
+
+})
+.catch(function fail () {
+
 })
 ```
 
-
 ## API
 
-### envVars(input)
+__no options yet__
 
-#### input
+### Libraries used
 
-*Required*  
-Type: `string`
-
-The string with the exported variables
+ * iOS: [PEPhotoCropEditor](https://github.com/kishikawakatsumi/PEPhotoCropEditor)
+ * Android: [android-crop](https://github.com/jdamcd/android-crop)
 
 ## License
 
