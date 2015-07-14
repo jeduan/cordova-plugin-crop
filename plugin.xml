@@ -31,6 +31,20 @@
 
     <header-file src="src/ios/CTCrop.h" />
     <source-file src="src/ios/CTCrop.m" />
+    <header-file src="src/ios/Lib/PECropRectView.h" />
+    <source-file src="src/ios/Lib/PECropRectView.m" />
+    <header-file src="src/ios/Lib/PECropView.h" />
+    <source-file src="src/ios/Lib/PECropView.m" />
+    <header-file src="src/ios/Lib/PECropViewController.h" />
+    <source-file src="src/ios/Lib/PECropViewController.m" />
+    <header-file src="src/ios/Lib/PEResizeControl.h" />
+    <source-file src="src/ios/Lib/PEResizeControl.m" />
+    <header-file src="src/ios/Lib/UIImage+PECrop.h" />
+    <source-file src="src/ios/Lib/UIImage+PECrop.m" />
+    <resource-file src="src/ios/Lib/PEPhotoCropEditor.bundle" />
+
+    <framework src="QuartzCore.framework" />
+    <framework src="AVFoundation.framework" />
   </platform>
 
   <!-- android -->

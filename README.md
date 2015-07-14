@@ -35,7 +35,9 @@ plugins.crop.promise('/path/to/image', options)
 
 ## API
 
-__no options yet__
+ * quality: Number
+
+The resulting JPEG quality. default: 100
 
 ### Libraries used
 
