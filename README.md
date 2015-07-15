@@ -25,10 +25,10 @@ or, if you are running on an environment that supports Promises
 
 ```js
 plugins.crop.promise('/path/to/image', options)
-.then(function success () {
+.then(function success (newPath) {
 
 })
-.catch(function fail () {
+.catch(function fail (err) {
 
 })
 ```
