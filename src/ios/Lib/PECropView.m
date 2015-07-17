@@ -11,9 +11,9 @@
 #import "UIImage+PECrop.h"
 
 static const CGFloat MarginTop = 37.0f;
-static const CGFloat MarginBottom = MarginTop;
+//static const CGFloat MarginBottom = MarginTop;
 static const CGFloat MarginLeft = 20.0f;
-static const CGFloat MarginRight = MarginLeft;
+//static const CGFloat MarginRight = MarginLeft;
 
 @interface PECropView () <UIScrollViewDelegate, UIGestureRecognizerDelegate, PECropRectViewDelegate>
 
@@ -76,6 +76,7 @@ static const CGFloat MarginRight = MarginLeft;
     
     UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotation:)];
     rotationGestureRecognizer.delegate = self;
+    _rotationGestureRecognizer = rotationGestureRecognizer;
     [self.scrollView addGestureRecognizer:rotationGestureRecognizer];
     
     self.cropRectView = [[PECropRectView alloc] init];
