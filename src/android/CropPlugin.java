@@ -9,12 +9,15 @@ import com.soundcloud.android.crop.Crop;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaResourceApi;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CropPlugin extends CordovaPlugin {
     private CallbackContext callbackContext;
@@ -25,8 +28,6 @@ public class CropPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
       if (action.equals("cropImage")) {
-          this.callbackContext = callbackContext;
-          cordova.setActivityResultCallback(this);
           String imagePath = args.getString(0);
           JSONObject params = args.getJSONObject(1);
 
@@ -35,16 +36,19 @@ public class CropPlugin extends CordovaPlugin {
           } else {
               this.quality = 100;
           }
-          imagePath = stripFileProtocol(imagePath);
 
-          this.inputUri = Uri.fromFile(new File(imagePath));
+          this.inputUri = Uri.parse(imagePath);
           this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/cropped.jpg"));
 
           PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
           pr.setKeepCallback(true);
           callbackContext.sendPluginResult(pr);
+          this.callbackContext = callbackContext;
 
-          Crop.of(this.inputUri, this.outputUri).asSquare().start(cordova.getActivity());
+          cordova.setActivityResultCallback(this);
+          Crop.of(this.inputUri, this.outputUri)
+                  .asSquare()
+                  .start(cordova.getActivity());
           return true;
       }
       return false;
@@ -56,8 +60,27 @@ public class CropPlugin extends CordovaPlugin {
             if (resultCode == Activity.RESULT_OK) {
                 Uri imageUri = Crop.getOutput(intent);
                 this.callbackContext.success(imageUri.getPath());
+                this.callbackContext = null;
             } else if (resultCode == Crop.RESULT_ERROR) {
-                this.callbackContext.error(resultCode);
+                try {
+                    JSONObject err = new JSONObject();
+                    err.put("message", "Error on cropping");
+                    err.put("code", String.valueOf(resultCode));
+                    this.callbackContext.error(err);
+                    this.callbackContext = null;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                try {
+                    JSONObject err = new JSONObject();
+                    err.put("message", "User cancelled");
+                    err.put("code", "userCancelled");
+                    this.callbackContext.error(err);
+                    this.callbackContext = null;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, intent);
