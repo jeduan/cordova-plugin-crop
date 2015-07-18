@@ -9,19 +9,15 @@ import com.soundcloud.android.crop.Crop;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaResourceApi;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CropPlugin extends CordovaPlugin {
     private CallbackContext callbackContext;
-    private int quality;
     private Uri inputUri;
     private Uri outputUri;
 
@@ -29,13 +25,6 @@ public class CropPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
       if (action.equals("cropImage")) {
           String imagePath = args.getString(0);
-          JSONObject params = args.getJSONObject(1);
-
-          if (params.has("quality")) {
-              this.quality = params.getInt("quality");
-          } else {
-              this.quality = 100;
-          }
 
           this.inputUri = Uri.parse(imagePath);
           this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/cropped.jpg"));
@@ -102,12 +91,5 @@ public class CropPlugin extends CordovaPlugin {
         // Create the cache directory if it doesn't exist
         cache.mkdirs();
         return cache.getAbsolutePath();
-    }
-
-    private String stripFileProtocol(String uriString) {
-        if (uriString.startsWith("file://")) {
-            uriString = uriString.substring(7);
-        }
-        return uriString;
     }
 }
