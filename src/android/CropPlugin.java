@@ -48,7 +48,7 @@ public class CropPlugin extends CordovaPlugin {
         if (requestCode == Crop.REQUEST_CROP) {
             if (resultCode == Activity.RESULT_OK) {
                 Uri imageUri = Crop.getOutput(intent);
-                this.callbackContext.success(imageUri.getPath());
+                this.callbackContext.success("file://" + imageUri.getPath() + "?" + System.currentTimeMillis());
                 this.callbackContext = null;
             } else if (resultCode == Crop.RESULT_ERROR) {
                 try {
