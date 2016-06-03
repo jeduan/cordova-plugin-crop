@@ -27,7 +27,7 @@ public class CropPlugin extends CordovaPlugin {
           String imagePath = args.getString(0);
 
           this.inputUri = Uri.parse(imagePath);
-          this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/cropped.jpg"));
+          this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis()+ "-cropped.jpg"));
 
           PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
           pr.setKeepCallback(true);
