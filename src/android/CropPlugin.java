@@ -92,4 +92,31 @@ public class CropPlugin extends CordovaPlugin {
         cache.mkdirs();
         return cache.getAbsolutePath();
     }
+
+    public Bundle onSaveInstanceState() {
+        Bundle state = new Bundle();
+
+        if (this.inputUri != null) {
+            state.putString("inputUri", this.inputUri.toString());
+        }
+
+        if (this.outputUri != null) {
+            state.putString("outputUri", this.outputUri.toString());
+        }
+
+        return state;
+    }
+
+    public void onRestoreStateForActivityResult(Bundle state, CallbackContext callbackContext) {
+
+        if (state.containsKey("inputUri")) {
+            this.inputUri = Uri.parse(state.getString("inputUri"));
+        }
+
+        if (state.containsKey("outputUri")) {
+            this.inputUri = Uri.parse(state.getString("outputUri"));
+        }
+
+        this.callbackContext = callbackContext;
+    }
 }
