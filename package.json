@@ -1,7 +1,7 @@
 {
-  "name": "cordova-plugin-crop",
-  "version": "0.3.1",
-  "description": "Crop an image in a Cordova app",
+  "name": "cordova-plugin-crop-on-steroids",
+  "version": "1.0.0",
+  "description": "Crop an image in a Cordova app. You can specify a fixed aspect ratio or no aspect ratio for ANDROID!",
   "cordova": {
     "id": "cordova-plugin-crop",
     "platforms": [
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jeduan/cordova-plugin-crop"
+    "url": "https://github.com/Thinslices/cordova-plugin-crop-on-steroids"
   },
   "keywords": [
     "cordova",
@@ -20,7 +20,8 @@
     "cordova-ios",
     "image",
     "image manipulation",
-    "crop"
+    "crop",
+    "aspect ratio"
   ],
   "license": "MIT"
 }
