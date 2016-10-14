@@ -1,4 +1,4 @@
-# cordova-plugin-crop
+# cordova-plugin-crop-on-steroids
 
 > Crop an image in a Cordova app
 
@@ -6,7 +6,7 @@
 ## Install
 
 ```
-$ cordova plugin add --save cordova-plugin-crop
+$ cordova plugin add --save cordova-plugin-crop-on-steroids
 ```
 
 
@@ -36,8 +36,11 @@ plugins.crop.promise('/path/to/image', options)
 ## API
 
  * quality: Number
-
 The resulting JPEG quality. default: 100
+
+### ANDROID ONLY
+ * in order to target a certain aspect ratio, the options value must be an array of the two dimensions: `[width, height]` 
+
 
 ### Libraries used
 
