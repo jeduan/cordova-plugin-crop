@@ -43,14 +43,12 @@ The resulting JPEG quality. default: 100
 
 <img src="screenshot-example.png" width="250" height="500">
 
-This is an example service that uses ionic-native's built in camera and the cordova-plugin-crop to created a cropped version of the image and return the file path. 
+This is an example service that uses ionic-native's built in camera and the cordova-plugin-crop to create a cropped version of the image and return the file path. 
 
 ```js
 import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
-import { Camera } from 'ionic-native';
-
-declare var plugins: any;
+import { Camera, Crop } from 'ionic-native';
 
 @Injectable()
 export class CameraService {
@@ -71,12 +69,12 @@ export class CameraService {
       Camera.getPicture(this.options).then((fileUri) => {
         // Crop Image, on android this returns something like, '/storage/emulated/0/Android/...'
         // Only giving an android example as ionic-native camera has built in cropping ability
-        if (this.platform.is('android') {
+        if (this.platform.is('android')) {
           // Modify fileUri format, may not always be necessary
           fileUri = 'file://' + fileUri;
           const options = { quality: 100 };
           /* Using cordova-plugin-crop starts here */
-          plugins.crop.promise(fileUri, options).then( (path) => {
+         Crop.crop(fileUri, options).then( (path) => {
             // path looks like 'file:///storage/emulated/0/Android/data/com.foo.bar/cache/1477008080626-cropped.jpg?1477008106566'
             console.log('Cropped Image Path!: ' + path);
             // Do whatever you want with new path such as read in a file
@@ -88,7 +86,7 @@ export class CameraService {
         }
       }).catch((error) => {
         reject(error);
-      }
+      })
     });
   }
   
