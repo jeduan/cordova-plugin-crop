@@ -46,23 +46,28 @@
     
     CGFloat width = self.targetWidth > -1 ? (CGFloat)self.targetWidth : image.size.width;
     CGFloat height = self.targetHeight > -1 ? (CGFloat)self.targetHeight : image.size.height;
-    CGFloat length = MIN(width, height);
     CGFloat croperWidth;
     CGFloat croperHeight;
-    if (self.widthRatio < 0 || self.widthRatio < 0){
+    
+   if (self.widthRatio < 0 || self.heightRatio < 0){
         cropController.keepingCropAspectRatio = NO;
-        croperWidth = length;
-        croperHeight = length;
-    } else {
+        croperWidth = MIN(width, height);
+        croperHeight = MIN(width, height); 
+   } else {
         cropController.keepingCropAspectRatio = YES;
-        croperWidth = length * (CGFloat)self.widthRatio / (CGFloat)self.heightRatio;
-        croperHeight = length / (CGFloat)self.widthRatio / (CGFloat)self.heightRatio;
+        if(self.widthRatio > self.heightRatio) {
+            croperWidth = width;
+            croperHeight = width * self.heightRatio / self.widthRatio;
+        } else {
+            croperWidth = height * self.widthRatio / self.heightRatio;
+            croperHeight = height;
+        }
     }
     
-    cropController.toolbarHidden = YES;
+   cropController.toolbarHidden = YES;
     cropController.rotationEnabled = NO;
-    cropController.imageCropRect = CGRectMake((width - length) / 2,
-                                              (height - length) / 2,
+    cropController.imageCropRect = CGRectMake((width - croperWidth) / 2,
+                                              (height - croperHeight) / 2,
                                               croperWidth,
                                               croperHeight);
     
