@@ -25,21 +25,36 @@ public class CropPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
       if (action.equals("cropImage")) {
-          String imagePath = args.getString(0);
+        String imagePath = args.getString(0);
+        JSONObject options = args.getJSONObject(1);
 
-          this.inputUri = Uri.parse(imagePath);
-          this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis()+ "-cropped.jpg"));
+        int widthRatio = options.getInt("widthRatio");
+        int heightRatio = options.getInt("heightRatio");
+        int targetWidth = options.getInt("targetWidth");
+        int targetHeight = options.getInt("targetHeight");
 
-          PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
-          pr.setKeepCallback(true);
-          callbackContext.sendPluginResult(pr);
-          this.callbackContext = callbackContext;
+        this.inputUri = Uri.parse(imagePath);
+        this.outputUri = Uri.fromFile(new File(getTempDirectoryPath() + "/" + System.currentTimeMillis()+ "-cropped.jpg"));
 
-          cordova.setActivityResultCallback(this);
-          Crop.of(this.inputUri, this.outputUri)
-                  .asSquare()
-                  .start(cordova.getActivity());
-          return true;
+        PluginResult pr = new PluginResult(PluginResult.Status.NO_RESULT);
+        pr.setKeepCallback(true);
+        callbackContext.sendPluginResult(pr);
+        this.callbackContext = callbackContext;
+
+        cordova.setActivityResultCallback(this);
+        Crop croper = Crop.of(this.inputUri, this.outputUri);
+
+        if(targetHeight > 0 && targetWidth > 0) {
+            croper.withMaxSize(targetWidth, targetHeight);
+        }
+
+        if(widthRatio > 0 && heightRatio > 0){
+            croper.withAspect(widthRatio, heightRatio);
+        } 
+
+        croper.start(cordova.getActivity());
+
+        return true;
       }
       return false;
     }
