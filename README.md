@@ -37,7 +37,15 @@ plugins.crop.promise('/path/to/image', options)
 
  * quality: Number
 
-The resulting JPEG quality. default: 100
+The resulting JPEG quality (ignored on Android). default: 100
+
+ * targetWidth: Number
+
+The resulting JPEG picture width. default: -1
+
+ * targetHeight: Number
+
+The resulting JPEG picture height. default: -1
 
 ## Ionic / Typescript Example Angular 2 Service
 
@@ -76,7 +84,7 @@ export class CameraService {
           fileUri = 'file://' + fileUri;
 
           /* Using cordova-plugin-crop starts here */
-          return Crop.crop(fileUri, { quality: 100 });
+          return Crop.crop(fileUri, { quality: 100, targetWidth: -1, targetHeight: -1 });
         }
       })
       .then((path) => {
