@@ -47,6 +47,10 @@ The resulting JPEG picture width. default: -1
 
 The resulting JPEG picture height. default: -1
 
+ * keepAspectRatio: Number
+
+Defines if cropping should keep the specified aspect ratio (1) or not (0). default: 1
+
 ## Ionic / Typescript Example Angular 2 Service
 
 <img src="screenshot-example.png" width="250" height="500">
