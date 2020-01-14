@@ -4,9 +4,9 @@
 
 @interface CTCrop ()
 @property (copy) NSString* callbackId;
-@property (assign) NSUInteger quality;
-@property (assign) NSUInteger targetWidth;
-@property (assign) NSUInteger targetHeight;
+@property (assign) NSInteger quality;
+@property (assign) NSInteger targetWidth;
+@property (assign) NSInteger targetHeight;
 @property (assign) BOOL keepAspectRatio;
 @end
 
@@ -44,15 +44,11 @@
     
     CGFloat width = self.targetWidth > -1 ? (CGFloat)self.targetWidth : image.size.width;
     CGFloat height = self.targetHeight > -1 ? (CGFloat)self.targetHeight : image.size.height;
-    CGFloat length = MIN(width, height);
     cropController.toolbarHidden = YES;
     cropController.rotationEnabled = NO;
     cropController.keepingCropAspectRatio = self.keepAspectRatio == 0 ? NO : YES;
     
-    cropController.imageCropRect = CGRectMake((width - length) / 2,
-                                              (height - length) / 2,
-                                              length,
-                                              length);
+    cropController.imageCropRect = CGRectMake(0, 0, width, height);
     
     self.callbackId = command.callbackId;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:cropController];
