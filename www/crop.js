@@ -4,7 +4,7 @@ var crop = module.exports = function cropImage (success, fail, image, options) {
   options.quality = options.quality || 100
   options.targetWidth = options.targetWidth || -1
   options.targetHeight = options.targetHeight || -1
-  options.keepAspectRatio = options.keepAspectRatio || 1
+  options.keepAspectRatio = options.keepAspectRatio || options.keepAspectRatio===0 ? options.keepAspectRatio : 1
   return cordova.exec(success, fail, 'CropPlugin', 'cropImage', [image, options])
 }
 
