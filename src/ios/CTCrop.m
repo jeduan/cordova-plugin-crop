@@ -7,6 +7,7 @@
 @property (assign) NSUInteger quality;
 @property (assign) NSUInteger targetWidth;
 @property (assign) NSUInteger targetHeight;
+@property (assign) BOOL keepAspectRatio;
 @end
 
 @implementation CTCrop
@@ -19,6 +20,7 @@
     self.quality = options[@"quality"] ? [options[@"quality"] intValue] : 100;
     self.targetWidth = options[@"targetWidth"] ? [options[@"targetWidth"] intValue] : -1;
     self.targetHeight = options[@"targetHeight"] ? [options[@"targetHeight"] intValue] : -1;
+    self.keepAspectRatio = options[@"keepAspectRatio"]  ? [options[@"keepAspectRatio"] intValue] : 1;
     NSString *filePrefix = @"file://";
     
     if ([imagePath hasPrefix:filePrefix]) {
@@ -45,7 +47,7 @@
     CGFloat length = MIN(width, height);
     cropController.toolbarHidden = YES;
     cropController.rotationEnabled = NO;
-    cropController.keepingCropAspectRatio = YES;
+    cropController.keepingCropAspectRatio = self.keepAspectRatio == 0 ? NO : YES;
     
     cropController.imageCropRect = CGRectMake((width - length) / 2,
                                               (height - length) / 2,
