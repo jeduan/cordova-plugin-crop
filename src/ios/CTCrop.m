@@ -42,8 +42,22 @@
     cropController.delegate = self;
     cropController.image = image;
     
-    CGFloat width = self.targetWidth > -1 ? (CGFloat)self.targetWidth : image.size.width;
-    CGFloat height = self.targetHeight > -1 ? (CGFloat)self.targetHeight : image.size.height;
+    CGFloat width;
+    CGFloat height;
+    
+    if(self.targetWidth != -1 && self.targetHeight != -1){
+        width = (CGFloat)self.targetWidth;
+        height = (CGFloat)self.targetHeight;
+    } else {
+        if(self.keepAspectRatio != 0){
+            width = MIN(image.size.width, image.size.height);
+            height = width;
+        } else {
+            width = image.size.width;
+            height = image.size.height;
+        }
+    }
+    
     cropController.toolbarHidden = YES;
     cropController.rotationEnabled = NO;
     cropController.keepingCropAspectRatio = self.keepAspectRatio == 0 ? NO : YES;
