@@ -1,4 +1,11 @@
+# Important
+
+## This project is deprecated. No new changes nor bugfixes will be added.
+
+
 # cordova-plugin-crop
+
+
 
 > Crop an image in a Cordova app
 
