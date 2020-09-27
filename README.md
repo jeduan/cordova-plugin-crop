@@ -13,7 +13,7 @@
 ## Install
 
 ```
-$ cordova plugin add --save cordova-plugin-crop
+$ cordova plugin add --save https://github.com/rastafan/cordova-plugin-crop
 ```
 
 
@@ -53,6 +53,10 @@ The resulting JPEG picture width. default: -1
  * targetHeight: Number
 
 The resulting JPEG picture height. default: -1
+
+ * keepAspectRatio: Number
+
+Defines if cropping should keep the specified aspect ratio (1) or not (0). default: 1
 
 ## Ionic / Typescript Example Angular 2 Service
 

@@ -4,9 +4,10 @@
 
 @interface CTCrop ()
 @property (copy) NSString* callbackId;
-@property (assign) NSUInteger quality;
-@property (assign) NSUInteger targetWidth;
-@property (assign) NSUInteger targetHeight;
+@property (assign) NSInteger quality;
+@property (assign) NSInteger targetWidth;
+@property (assign) NSInteger targetHeight;
+@property (assign) BOOL keepAspectRatio;
 @end
 
 @implementation CTCrop
@@ -19,6 +20,7 @@
     self.quality = options[@"quality"] ? [options[@"quality"] intValue] : 100;
     self.targetWidth = options[@"targetWidth"] ? [options[@"targetWidth"] intValue] : -1;
     self.targetHeight = options[@"targetHeight"] ? [options[@"targetHeight"] intValue] : -1;
+    self.keepAspectRatio = options[@"keepAspectRatio"]  ? [options[@"keepAspectRatio"] intValue] : 1;
     NSString *filePrefix = @"file://";
     
     if ([imagePath hasPrefix:filePrefix]) {
@@ -40,17 +42,27 @@
     cropController.delegate = self;
     cropController.image = image;
     
-    CGFloat width = self.targetWidth > -1 ? (CGFloat)self.targetWidth : image.size.width;
-    CGFloat height = self.targetHeight > -1 ? (CGFloat)self.targetHeight : image.size.height;
-    CGFloat length = MIN(width, height);
+    CGFloat width;
+    CGFloat height;
+    
+    if(self.targetWidth != -1 && self.targetHeight != -1){
+        width = (CGFloat)self.targetWidth;
+        height = (CGFloat)self.targetHeight;
+    } else {
+        if(self.keepAspectRatio != 0){
+            width = MIN(image.size.width, image.size.height);
+            height = width;
+        } else {
+            width = image.size.width;
+            height = image.size.height;
+        }
+    }
+    
     cropController.toolbarHidden = YES;
     cropController.rotationEnabled = NO;
-    cropController.keepingCropAspectRatio = YES;
+    cropController.keepingCropAspectRatio = self.keepAspectRatio == 0 ? NO : YES;
     
-    cropController.imageCropRect = CGRectMake((width - length) / 2,
-                                              (height - length) / 2,
-                                              length,
-                                              length);
+    cropController.imageCropRect = CGRectMake(0, 0, width, height);
     
     self.callbackId = command.callbackId;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:cropController];
